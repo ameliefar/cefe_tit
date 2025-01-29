@@ -18,10 +18,10 @@
 library(tidyverse)
 library(openxlsx)
 
-#' object "repo" directs to the folder with the updated data. I am displaying that address to this repository
-repo
+#' object "repo" directs to the folder with the updated data. I am masking the address to this repository
+repo 
 
-output <- "D:/Terrain/Terrain2025/ListeSang2025/"
+output <- "C:/Users/FARGEVIEILLE/Documents/GitHub/cefe_tit/outputs/liste_sang_2025/"
 
 #' call the dataset containg information about blood sample (and bird ID)
 morpho <- openxlsx::read.xlsx(paste0(repo, "SIE MORPH 1976-2024.xlsx"), detectDates = TRUE)
