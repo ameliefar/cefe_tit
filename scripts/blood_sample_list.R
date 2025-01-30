@@ -12,21 +12,21 @@
 #' It means that I only keep the last two years in the lists
 #' (Birds captured three years ago or before should be 4 years or more this year anyway)
 #' It means that I only keep birds that were 1 or 2 years old last year
-#' or birds that were less that were 1 year old the year before (first breeding attempt)
+#' or birds that were 1 year old the year before (first breeding attempt)
 #' 
 #' 
 library(tidyverse)
 library(openxlsx)
 
-#' object "repo" directs to the folder with the updated data. I am masking the address to this repository
-repo 
+#' object "repo" directs to the folder with the updated data. I am hiding the address to this repository
+repo <- 
 
 output <- "C:/Users/FARGEVIEILLE/Documents/GitHub/cefe_tit/outputs/liste_sang_2025/"
 
 #' call the dataset containg information about blood sample (and bird ID)
 morpho <- openxlsx::read.xlsx(paste0(repo, "SIE MORPH 1976-2024.xlsx"), detectDates = TRUE)
 
-#' Create a function to extract bird ID per site (or cluster of sites)
+#' Create a function to extract bird ID per site
 
 sang <- function (plot, sp) {
   
@@ -61,13 +61,24 @@ sang <- function (plot, sp) {
     select(bague)
   
   # Create the name of the csv file
-  texte <- paste0("liste_sang_", sp, "_", plot, ".csv")
+  lieu <- if (length(plot) > 1) { # case when the list involve more than one site
+    substitute(plot) # the function "substitute()" gets the name of the object ; if you create an object such as corse <- c("mur", "pir", "ava"), the name will be "corse"
+  } else { #case when there is only one site
+    plot # take the name of the site
+  }
+  texte <- paste0("liste_sang_", sp, "_", lieu, ".csv")
   
-  # Save bird ID as a csv file
-  write.csv(liste, paste0(output, texte), row.names = FALSE)
+  
+write.csv(liste, paste0(output, texte), row.names = FALSE)
+}
 
-} 
+#-------------------------------------------------------------------------
+# Extract files for blue tit
+#-------------------------------------------------------------------------
 
+#Blue tit from "Pirio" (Pirio & Tuarelli, as there were still nest boxes in Tuarelli in 2023)
+pir <-  c("pir", "tua")
+sang(pir, "ble")
 
 # Blue tit from site "Avapessa"
 sang("ava", "ble")
@@ -78,9 +89,9 @@ sang("fel", "ble")
 #Blue tit from site "Muro"
 sang("mur", "ble")
 
-# Blue tit from sites "Arinelle" & "Filagna"
-sang("ari", "ble")
-sang("fil", "ble")
+# Blue tit from sites "Arinelle" & "Filagna" (very close sites with potential exchanges)
+ari_fil <- c("ari", "fil")
+sang(ari_fil, "ble")
 
 # Blue tit from site "Grassa"
 sang("gra", "ble")
@@ -88,12 +99,17 @@ sang("gra", "ble")
 # Blue tit from site "Rouvière"
 sang("rou", "ble")
 
+
+#-------------------------------------------------------------------------
+# Extract files for great tit
+#-------------------------------------------------------------------------
+
 # Great tit from site "Rouviere"
 sang("rou", "cha")
 
-# Great tit from sites "CEFE" or "Fac"
-sang("cef", "cha")
-sang("fac", "cha")
+# Great tit from sites "CEFE" or "Fac" (very close sites with potential exchanges)
+cef_fac <- c("cef", "fac")
+sang(cef_fac, "cha")
 
 # Great tit from site "Jardin botanique"
 sang("bot", "cha")
@@ -113,8 +129,3 @@ sang("mos", "cha")
 # Great tit from site "Zoo de Lunaret"
 sang("zoo", "cha")
 
-
-#'Improvement:
-#' - Finding a way to include two sites within a csv file
-#' - For ODK purposes, I should have the complete list (maybe adding site, sex and species) 
-         
