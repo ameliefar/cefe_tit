@@ -14,11 +14,11 @@ library(tidyverse)
 library(openxlsx)
 
 #' object "repo" directs to the folder with the updated data. I am hiding the address to this repository
-repo <- 
+repo <- "//Maison/SIE/Projets/Donnees_Mesange/1-BDD  LA PLUS RECENTE/1- Données (Démo, Morpho,Pous, Obs)/8-BDD validé/"
 
 output <- "C:/Users/FARGEVIEILLE/Documents/GitHub/cefe_tit/outputs/"
 
-
+morpho <- openxlsx::read.xlsx(paste0(repo, "SIE MORPH 1976-2024.xlsx"), detectDates = TRUE)
 cha_odk_alt <- morpho %>% 
   
   # Select great tit individuals associated with a blood sample within the last 8 years from urban sites
@@ -34,9 +34,16 @@ cha_odk_alt <- morpho %>%
   # Keep only one row for each ID
   dplyr::distinct(bague, .keep_all = TRUE) 
 
+#' Rename values to make it more explicit + adapt column names to ODK form
+cha_odk <- cha_odk_alt %>% 
+  dplyr::mutate(sex = dplyr::case_when(sex == "1" ~ "M",
+                                sex == "2" ~ "F",
+                                TRUE ~ "?"),
+                min_age = dplyr::case_when(stringr::str_detect(age, "A") ~ as.numeric(stringr::str_remove(age, "[AIJP]")) + 1,
+                                           TRUE ~ as.numeric(stringr::str_remove(age, "[AIJP]"))),
+                age_2025 = min_age + (2025 - as.numeric(an))) %>% 
+  dplyr::select(bague, espece, lieu, an, sex, age_2025, quantite_sang)
 
-# I can make some values more explicit (sex of individuals, add a minimal age)
-# I also need to change column names to fit in the ODK form
 
 # save file as a .csv file (necessary for ODK form)
-write.csv(cha_odk, paste0(output, "liste_ID_ville.csv"), row.names = TRUE, na = "")
+write.csv(cha_odk, paste0(output, "bird_id.csv"), row.names = FALSE, na = "")
