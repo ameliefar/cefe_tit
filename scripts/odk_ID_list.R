@@ -16,11 +16,11 @@ library(openxlsx)
 #' object "repo" directs to the folder with the updated (primary) data. 
 #' object "repo1" directs to the folder with SPI-Birds formatted data. 
 #' I am hiding the address to these repositories
-repo <- "//Maison/SIE/Projets/Donnees_Mesange/1-BDD  LA PLUS RECENTE/1- Données (Démo, Morpho,Pous, Obs)/8-BDD validé/"
-repo1 <- "D:/SPIBirds/SPIBIRDS2024/FormattedData2024/MON_Montpellier_France/"
+repo <-
+repo1 <- 
 
 #' object "ouput" is the path where the list will be saved
-output <- "C:/Users/FARGEVIEILLE/Documents/GitHub/cefe_tit/outputs/liste_sang_2025/"
+output <- "C:/Users/FARGEVIEILLE/Documents/GitHub/cefe_tit/outputs/"
 
 
 #' Call the formatted dataset containing each bird history
