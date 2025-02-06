@@ -134,7 +134,9 @@ of_cog <- morpho1 %>%
                    nb_cog = sum(cog))
   
 
-bird_id_final <- dplyr::left_join(bird_id_3, of_cog, by = "bague")
+bird_id_final <- dplyr::left_join(bird_id_3, of_cog, by = "bague") %>% 
+  dplyr::mutate(across(c("number_captures", "nb_of", "nb_cog"), ~ dplyr::case_when(is.na(.) ~ 0,
+                                                                                   TRUE ~ .)))
  
 
 # save file as a .csv file (necessary for ODK form)
