@@ -16,8 +16,9 @@ library(openxlsx)
 #' object "repo" directs to the folder with the updated (primary) data. 
 #' object "repo1" directs to the folder with SPI-Birds formatted data. 
 #' I am hiding the address to these repositories
-repo <-
-repo1 <- 
+repo <- "//Maison/SIE/Projets/Donnees_Mesange/1-BDD  LA PLUS RECENTE/1- Données (Démo, Morpho,Pous, Obs)/8-BDD validé/"
+
+repo1 <- "D:/SPIBirds/SPIBIRDS2024/FormattedData2024/MON_Montpellier_France/"
 
 #' object "ouput" is the path where the list will be saved
 output <- "C:/Users/FARGEVIEILLE/Documents/GitHub/cefe_tit/outputs/"
@@ -39,9 +40,9 @@ ind1 <- ind %>%
                 LaidNestbox = paste(LaidSite, LaidNest, sep = "_"),
                 nic_naiss = dplyr::case_when(LaidNestbox == "NA_NA" ~ NA_character_,
                                         TRUE ~ LaidNestbox),
-                age_2025 = dplyr::case_when(tagStage == "chick" ~ 2025 - tagYear + 1,
-                                            tagStage == "subadult" ~ 2025 - tagYear,
-                                            TRUE ~ 2025 - tagYear -1)) %>% 
+                age_2025 = dplyr::case_when(tagStage == "chick" ~ 2025 - tagYear,
+                                            tagStage == "subadult" ~ 2025 - (tagYear - 1),
+                                            TRUE ~ 2025 - (tagYear - 2))) %>% 
   dplyr::select(individualID, espece, lieu_naiss = "LaidSite", nic_naiss, age_2025, calculatedSex) 
   
 
