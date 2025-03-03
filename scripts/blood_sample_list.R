@@ -19,7 +19,7 @@ library(tidyverse)
 library(openxlsx)
 
 #' object "repo" directs to the folder with the updated data. I am hiding the address to this repository
-repo <- 
+repo <- "//Maison/SIE/Projets/Donnees_Mesange/1-BDD  LA PLUS RECENTE/1- Données (Démo, Morpho,Pous, Obs)/8-BDD validé/"
 
 output <- "C:/Users/FARGEVIEILLE/Documents/GitHub/cefe_tit/outputs/liste_sang_2025/"
 
@@ -32,9 +32,8 @@ sang <- function (plot, sp) {
   
   data <- morpho %>% 
     
-    # Select individuals associated with a blood sample of more than 10 µL within the last 2 years
-    # Usually, I keep the last 3 years, but as we need samples for senescence, I only keep the last 2 years
-    dplyr::filter(an <= max(as.numeric(an)) & an >= (max(as.numeric(an)) - 1) & quantite_sang >=10) %>% 
+    # Select individuals associated with a blood sample of more than 10 µL within the last 3 years
+    dplyr::filter(an <= max(as.numeric(an)) & an >= (max(as.numeric(an)) - 3) & quantite_sang >=10) %>% 
     
     # Keep only columns of interest
     dplyr::select(espece, lieu, an, bague, age) %>% 
@@ -48,14 +47,6 @@ sang <- function (plot, sp) {
   # Create a list specific to the targetted site and species
   liste <- data %>% 
     dplyr::filter(lieu %in% plot & espece == sp) %>% 
-    
-  # Create a column to calculate minimum age
-    dplyr::mutate(min_age = dplyr::case_when(stringr::str_detect(age, "A") ~ as.numeric(stringr::str_remove(age, "[AIJP]")) + 1,
-                                             TRUE ~ as.numeric(stringr::str_remove(age, "[AIJP]")))) %>% 
-    
-  # Filter to only keep individuals that will be less than 4 years old in the next breeding season
-    # (they were less than three years old last year, or less than 2 years old the year before)
-    dplyr::filter((an == max(as.numeric(an)) & min_age < 3) | (an == max(as.numeric(an) - 1) & min_age < 2)) %>% 
   
   # Create a dataframe containing only bird ID
     select(bague)
