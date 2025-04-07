@@ -15,10 +15,13 @@ library(openxlsx)
 #'
 #' object "repo" directs to the folder with the updated (primary) data. 
 #' object "repo1" directs to the folder with SPI-Birds formatted data. 
+#' object "repo2" directs to the temporary folder for for ongoing record of data
 #' I am hiding the address to these repositories
-repo <- "//Maison/SIE/Projets/Donnees_Mesange/1-BDD  LA PLUS RECENTE/1- Données (Démo, Morpho,Pous, Obs)/8-BDD validé/"
+repo <- 
 
-repo1 <- "D:/SPIBirds/SPIBIRDS2024/FormattedData2024/MON_Montpellier_France/"
+repo1 <- 
+
+repo2 <- 
 
 #' object "ouput" is the path where the list will be saved
 output <- "C:/Users/FARGEVIEILLE/Documents/GitHub/cefe_tit/outputs/"
@@ -56,8 +59,9 @@ ind1 <- ind %>%
 #'  - the number of OF performed (extract info "OF" from exp_ad) - DONE
 #'  - the number of cognition tests performed (extract info "cog" from comments) - DONE
 
-morpho <- openxlsx::read.xlsx(paste0(repo, "SIE MORPH 1976-2024.xlsx"), detectDates = TRUE)
-
+morpho_old <- openxlsx::read.xlsx(paste0(repo, "SIE MORPH 1976-2024.xlsx"), detectDates = TRUE)
+morpho_new <- openxlsx::read.xlsx(paste0(repo2, "MORPH_2025.xlsx"), detectDates = TRUE)
+morpho <- rbind(morpho_old, morpho_new)
 #'Let's start by filter targetted species, targetted population, targetted years
 
 morpho1 <- morpho %>% 
