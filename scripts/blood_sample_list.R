@@ -19,12 +19,17 @@ library(tidyverse)
 library(openxlsx)
 
 #' object "repo" directs to the folder with the updated data. I am hiding the address to this repository
-repo <- "//Maison/SIE/Projets/Donnees_Mesange/1-BDD  LA PLUS RECENTE/1- Données (Démo, Morpho,Pous, Obs)/8-BDD validé/"
+#' object "repo1" directs to the folder with ongoing recorded data. I am hinding the address to this repository
+repo <- 
+repo1 <- 
 
 output <- "C:/Users/FARGEVIEILLE/Documents/GitHub/cefe_tit/outputs/liste_sang_2025/"
 
 #' call the dataset containg information about blood sample (and bird ID)
-morpho <- openxlsx::read.xlsx(paste0(repo, "SIE MORPH 1976-2024.xlsx"), detectDates = TRUE)
+morpho_old <- openxlsx::read.xlsx(paste0(repo, "SIE MORPH 1976-2024.xlsx"), detectDates = TRUE)
+morpho_new <- openxlsx::read.xlsx(paste0(repo1, "MORPH_2025.xlsx"), detectDates = TRUE)
+morph <- rbind(morpho_old, morpho_new)
+
 
 #' Create a function to extract bird ID per site
 
