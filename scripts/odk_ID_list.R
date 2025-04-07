@@ -132,7 +132,7 @@ bird_id_3 <- left_join(bird_id_2, cap, by = "bague")
 of_cog <- morpho1 %>% 
   dplyr::mutate(of = dplyr::case_when(stringr::str_detect(exp_ad, "OF") ~ 1,
                                       TRUE ~ 0),
-                cog = dplyr::case_when(stringr::str_detect(exp_ad, "COGNITION") ~ 1,
+                cog = dplyr::case_when(stringr::str_detect(exp_ad, "COG") ~ 1,
                                        TRUE ~ 0)) %>% 
   dplyr::group_by(bague) %>% 
   dplyr::summarise(nb_of = sum(of),
