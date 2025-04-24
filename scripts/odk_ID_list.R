@@ -24,7 +24,7 @@ repo1 <-
 repo2 <- 
 
 #' object "ouput" is the path where the list will be saved
-output <- "C:/Users/FARGEVIEILLE/Documents/GitHub/cefe_tit/outputs/"
+output <- "~/GitHub/cefe_tit/outputs/"
 
 
 #' Call the formatted dataset containing each bird history
@@ -113,8 +113,7 @@ blood <- morpho1 %>%
   dplyr::select(bague, quantite_sang)
 
 bird_id_2 <- dplyr::left_join(bird_id_1, blood, by = "bague") %>% 
-  dplyr::mutate(sang_ok = dplyr::case_when(quantite_sang > 10 ~ "oui",
-                                           quantite_sang < 10 ~ "non",
+  dplyr::mutate(sang_ok = dplyr::case_when(quantite_sang >= 10 ~ "oui",
                                            TRUE ~ "non")) %>% 
   dplyr::select(bague, autre_bague, espece, sexe, age_2025, lieu_bag, nic_naiss, sang_ok)
 
