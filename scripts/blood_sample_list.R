@@ -28,7 +28,7 @@ output <- "C:/Users/FARGEVIEILLE/Documents/GitHub/cefe_tit/outputs/liste_sang_20
 #' call the dataset containg information about blood sample (and bird ID)
 morpho_old <- openxlsx::read.xlsx(paste0(repo, "SIE MORPH 1976-2024.xlsx"), detectDates = TRUE)
 morpho_new <- openxlsx::read.xlsx(paste0(repo1, "MORPH_2025.xlsx"), detectDates = TRUE)
-morph <- rbind(morpho_old, morpho_new)
+morpho <- rbind(morpho_old, morpho_new)
 
 
 #' Create a function to extract bird ID per site
